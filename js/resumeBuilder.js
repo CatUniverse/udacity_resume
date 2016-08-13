@@ -19,137 +19,47 @@ var bio = {
 		"github" : "CatUniverse",
 		"location" : "Alameda, CA"
 	},
-	"bioPic" : "images/fry.jpg",
-	"welcomeMsg" : "oh hai, welcome. Testing resume builder!",
+	"welcomeMessage" : "oh hai, welcome. Testing resume builder!",
 	"skills" : [
 		"Project Management", "HTML", "CSS", "Python",
 		"Javascript"
-	]
+	],
+	"biopic" : "images/fry.jpg",
+	"display": function () {
+		// header
+		var formattedName = HTMLheaderName.replace("%data%", bio.name);
+		var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+		var formattedPhoto = HTMLbioPic.replace("%data%", bio.biopic);
+		var formattedMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+		$("#header").prepend(formattedRole);
+		$("#header").prepend(formattedName);
+		$("#header").append(formattedMsg);
+		$("#header").append(formattedPhoto);
+		// contact
+		var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+		var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
+		var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
+		var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
+		$("#topContacts").prepend(formattedMobile);
+		$("#topContacts").prepend(formattedEmail);
+		$("#topContacts").prepend(formattedGithub);
+		$("#topContacts").prepend(formattedLocation);
+		$("#footerContacts").prepend(formattedMobile);
+		$("#footerContacts").prepend(formattedEmail);
+		$("#footerContacts").prepend(formattedGithub);
+		$("#footerContacts").prepend(formattedLocation);
+		// skills
+		if (bio.skills.length > 0) {
+			$("#header").append(HTMLskillsStart);
+			bio.skills.forEach(function(skill) {
+				var formattedSkill = HTMLskills.replace("%data%", skill);
+				$("#skills:last").append(formattedSkill);
+			});
+		}
+	}
 };
 
-// header
-var formattedName = HTMLheaderName.replace("%data%", bio.name);
-var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-var formattedPhoto = HTMLbioPic.replace("%data%", bio.bioPic);
-var formattedMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMsg);
-
-$("#header").prepend(formattedRole);
-$("#header").prepend(formattedName);
-$("#header").append(formattedMsg);
-$("#header").append(formattedPhoto);
-
-// contact
-var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
-var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
-var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
-var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
-
-$("#topContacts").prepend(formattedMobile);
-$("#topContacts").prepend(formattedEmail);
-$("#topContacts").prepend(formattedGithub);
-$("#topContacts").prepend(formattedLocation);
-
-// skills
-if (bio.skills.length > 0) {
-	$("#header").append(HTMLskillsStart);
-	for (index in bio.skills) {
-		var formattedSkill = HTMLskills.replace("%data%", bio.skills[index]);
-		$("#skills:last").append(formattedSkill);
-	} 
-}
-
-
-// WORK INFO
-var work = {
-	"jobs": [
-		{
-			"employer": "Facebook, Inc",
-			"title": "Technical Program Manager",
-			"dates": "October 2014 - Present",
-			"location": "Menlo Park, CA",
-			"url": "https://www.facebook.com/",
-			"description": [
-				"Support for facebook code release, specifically www (web, desktop) experience."
-			]
-		},
-		{
-			"employer": "Facebook, Inc",
-			"title": "Stability Manager",
-			"dates": "July 2013 - October 2014",
-			"location": "Menlo Park, CA",
-			"url": "https://www.facebook.com/",
-			"description": [
-				"i do stuff here too"
-			]
-		}
-	]
-};
-
-// function makeUL(array) {
-//     // Create list element and its contents
-//     // Awesome example in stackoverflow: http://stackoverflow.com/questions/11128700/create-a-ul-and-fill-it-based-on-a-passed-array
-// 	var list = document.createElement('ul');
-// 	for (var i = 0; i < array.length; i++) {
-// 		var item = document.createElement('li');
-// 		item.appendChild(document.createTextNode(array[i]));
-// 		list.appendChild(item);
-// 	}
-// 	return list;
-// }
-
-// console.log(makeUL(work.jobs[0].description)); 
-// ^ w0000t it worked
-// BUT, when you try to append the entire list, it simply says [object HTMLUListElement]
-// Unsure why this is happening here... :\
-
-
-work.display = function() {
-	for (index in work.jobs) {
-		$("#workExperience").append(HTMLworkStart);
-		var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[index].employer).replace("#", work.jobs[index].url);
-		var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[index].title);
-		var formattedWorkDates = HTMLworkDates.replace("%data%", work.jobs[index].dates);
-		var formattedWorkLocation = HTMLworkLocation.replace("%data%", work.jobs[index].location);
-		var formattedWorkDescription = HTMLworkDescription.replace("%data%", work.jobs[index].description);
-		$(".work-entry:last").append(formattedEmployer + formattedTitle, formattedWorkDates, formattedWorkLocation, formattedWorkDescription);
-	}
-}
-
-work.display();
-
-
-// PROJECTS
-var projects = {
-	"projects": [
-		{
-			"title": "GIF Making Party",
-			"dates": "Everyday on the Internet",
-			"description": "We make GIFs and go nuts",
-			"url": "images/partyhard.gif",
-			"image": "images/partyhard.gif"
-		},
-		{
-			"title": "Ramen Party",
-			"dates": "Sunday Every Week",
-			"description": "Ramen is for champions",
-			"url": "images/ramen.jpg",
-			"image": "images/ramen.jpg"
-		}
-	]
-}
-
-projects.display = function() {
-	for (index in projects.projects) {
-		$("#projects").append(HTMLprojectStart);
-		var formattedProjectTitle = HTMLprojectTitle.replace("%data%", projects.projects[index].title).replace("#", projects.projects[index].url);
-		var formattedProjectDates = HTMLprojectDates.replace("%data%", projects.projects[index].dates);
-		var formattedProjectDescription = HTMLprojectDescription.replace("%data%", projects.projects[index].description);
-		var formattedProjectImage = HTMLprojectImage.replace("%data%", projects.projects[index].image);
-		$(".project-entry:last").append(formattedProjectTitle, formattedProjectDates, formattedProjectDescription, formattedProjectImage);
-	}
-}
-
-projects.display();
+bio.display();
 
 
 // EDUCATION INFO
@@ -157,30 +67,31 @@ var education = {
 	"schools": [
 		{
 			"name": "Portland State University",
-			"url": "https://www.pdx.edu/",
-			"degree": "MBA",
-			"dates": "2008 - 2010",
 			"location": "Portland, OR",
-			"major": ["Marketing", " Operational Management"]
+			"degree": "MBA",
+			"majors": ["Marketing", " Operational Management"],
+			"dates": "2008 - 2010",
+			"url": "https://www.pdx.edu/"
+
 		},
 		{
 			"name": "Oregon State University",
-			"url": "http://oregonstate.edu/",
+			"location": "Corvallis, OR",
 			"degree": "M.S.",
+			"majors": ["Food Science & Technology"],
 			"dates": "2005 - 2007",
-			"location": "Corvallis, OR",
-			"major": ["Food Science & Technology"]
+			"url": "http://oregonstate.edu/"
 		},
 		{
 			"name": "Oregon State University",
-			"url": "http://oregonstate.edu/",
-			"degree": "B.S.",
-			"dates": "2002 - 2005",
 			"location": "Corvallis, OR",
-			"major": ["Biology", " Chemistry (Minor)"]
+			"degree": "B.S.",
+			"majors": ["Biology", " Chemistry (Minor)"],
+			"dates": "2002 - 2005",
+			"url": "http://oregonstate.edu/"
 		}
 	],
-	"online": [
+	"onlineCourses": [
 		{
 			"title": "Intro to Programming Nanodegree",
 			"school": "Udacity",
@@ -193,28 +104,104 @@ var education = {
 			"dates": "2011",
 			"url": "https://www.ccsf.edu/"
 		}
-	]
-}
-
-$("#education").append(HTMLschoolStart);
-for (index in education.schools) {
-	var formattedSchool = HTMLschoolName.replace("%data%", education.schools[index].name).replace("#", education.schools[index].url);
-	var formattedDegree = HTMLschoolDegree.replace("%data%", education.schools[index].degree);
-	var formattedSchoolDates = HTMLschoolDates.replace("%data%", education.schools[index].dates);
-	var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", education.schools[index].location);
-	var formattedSchoolMajor = HTMLschoolMajor.replace("%data%", education.schools[index].major);
-	$(".education-entry:last").append(formattedSchool + formattedDegree, formattedSchoolLocation, formattedSchoolDates, formattedSchoolMajor);
+	],
+	"display": function() {
+		// schools
+		$("#education").append(HTMLschoolStart);
+		education.schools.forEach(function(school) {
+			var formattedSchool = HTMLschoolName.replace("%data%", school.name).replace("#", school.url);
+			var formattedDegree = HTMLschoolDegree.replace("%data%", school.degree);
+			var formattedSchoolDates = HTMLschoolDates.replace("%data%", school.dates);
+			var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", school.location);
+			var formattedSchoolMajor = HTMLschoolMajor.replace("%data%", school.majors);
+			$(".education-entry:last").append(formattedSchool + formattedDegree, formattedSchoolLocation, formattedSchoolDates, formattedSchoolMajor);
+		});
+		// online classes
+		$(".education-entry").append(HTMLonlineClasses);
+		education.onlineCourses.forEach(function(online) {
+			var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", online.title).replace("#", online.url);
+			var formattedOnlineSchool = HTMLschoolDegree.replace("%data%", online.school);
+			var formattedOnlineDates = HTMLonlineDates.replace("%data%", online.dates);
+			var formattedOnlineURL = HTMLonlineURL.replace("%data%", online.school).replace("#", online.url);
+			$(".education-entry").append(formattedOnlineTitle + formattedOnlineSchool, formattedOnlineDates, formattedOnlineURL);	
+		})
+	}
 };
 
+education.display();
 
-$(".education-entry").append(HTMLonlineClasses);
-for (index in education.online) {
-	var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", education.online[index].title).replace("#", education.online[index].url);
-	var formattedOnlineSchool = HTMLschoolDegree.replace("%data%", education.online[index].school);
-	var formattedOnlineDates = HTMLonlineDates.replace("%data%", education.online[index].dates);
-	var formattedOnlineURL = HTMLonlineURL.replace("%data%", education.online[index].school).replace("#", education.online[index].url);
-	$(".education-entry").append(formattedOnlineTitle + formattedOnlineSchool, formattedOnlineDates, formattedOnlineURL);
+
+// WORK INFO
+var work = {
+	"jobs": [
+		{
+			"employer": "Facebook, Inc",
+			"title": "Technical Program Manager",
+			"location": "Menlo Park, CA",
+			"dates": "October 2014 - Present",
+
+			"url": "https://www.facebook.com/",
+			"description": "Support for facebook code release, specifically www (web, desktop) experience.",
+			"url": "https://www.facebook.com/"
+		},
+		{
+			"employer": "Facebook, Inc",
+			"title": "Stability Manager",
+			"location": "Menlo Park, CA",
+			"dates": "July 2013 - October 2014",
+			"url": "https://www.facebook.com/",
+			"description": "I managed a team and stuff",
+			"url": "https://www.facebook.com/"
+		}
+	],
+	"display": function() {
+		work.jobs.forEach(function(work) {
+			$("#workExperience").append(HTMLworkStart);
+			var formattedEmployer = HTMLworkEmployer.replace("%data%", work.employer).replace("#", work.url);
+			var formattedTitle = HTMLworkTitle.replace("%data%", work.title);
+			var formattedWorkDates = HTMLworkDates.replace("%data%", work.dates);
+			var formattedWorkLocation = HTMLworkLocation.replace("%data%", work.location);
+			var formattedWorkDescription = HTMLworkDescription.replace("%data%", work.description);
+			$(".work-entry:last").append(formattedEmployer + formattedTitle, formattedWorkDates, formattedWorkLocation, formattedWorkDescription);
+		})
+	}
 };
+
+work.display();
+
+
+// PROJECTS
+var projects = {
+	"projects": [
+		{
+			"title": "GIF Making Party",
+			"dates": "Everyday on the Internet",
+			"description": "We make GIFs and go nuts",
+			"images": ["images/partyhard.gif"],
+			"url": "images/partyhard.gif"
+		},
+		{
+			"title": "Ramen Party",
+			"dates": "Sunday Every Week",
+			"description": "Ramen is for champions",
+			"images": ["images/ramen.jpg"],
+			"url": "images/ramen.jpg"
+		}
+	],
+	"display": function() {
+		projects.projects.forEach(function(project) {
+			$("#projects").append(HTMLprojectStart);
+			var formattedProjectTitle = HTMLprojectTitle.replace("%data%", project.title).replace("#", project.url);
+			var formattedProjectDates = HTMLprojectDates.replace("%data%", project.dates);
+			var formattedProjectDescription = HTMLprojectDescription.replace("%data%", project.description);
+			var formattedProjectImage = HTMLprojectImage.replace("%data%", project.images);
+			$(".project-entry:last").append(formattedProjectTitle, formattedProjectDates, formattedProjectDescription, formattedProjectImage);
+		})
+	}
+};
+
+projects.display();
+
 
 
 // INTERNATIONALIZATION
